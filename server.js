@@ -55,6 +55,47 @@ app.post('/openhouses', (req, res) => {
 });
 
 
+app.post('/properties/:id', (req, res) => {
+    sparkService.getProperty(req.params.id, req.body).then(function(property){
+        res.json(property);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.post('/members/:id', (req, res) => {
+    sparkService.getProperty(req.params.id, req.body).then(function(member){
+        res.json(member);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.post('/office/:id', (req, res) => {
+    sparkService.getProperty(req.params.id, req.body).then(function(office){
+        res.json(office);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+
+app.post('/openhouse/:id', (req, res) => {
+    sparkService.getProperty(req.params.id, req.body).then(function(openhouse){
+        res.json(openhouse);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.get('/', (req, res) => {
     res.send("spark-service");
 });
