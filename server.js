@@ -66,7 +66,7 @@ app.post('/properties/:id', (req, res) => {
 
 
 app.post('/members/:id', (req, res) => {
-    sparkService.getProperty(req.params.id, req.body).then(function(member){
+    sparkService.getMember(req.params.id, req.body).then(function(member){
         res.json(member);
     }).catch(function(err){
         console.log(err);
@@ -75,8 +75,8 @@ app.post('/members/:id', (req, res) => {
 });
 
 
-app.post('/office/:id', (req, res) => {
-    sparkService.getProperty(req.params.id, req.body).then(function(office){
+app.post('/offices/:id', (req, res) => {
+    sparkService.getOffice(req.params.id, req.body).then(function(office){
         res.json(office);
     }).catch(function(err){
         console.log(err);
@@ -86,8 +86,8 @@ app.post('/office/:id', (req, res) => {
 
 
 
-app.post('/openhouse/:id', (req, res) => {
-    sparkService.getProperty(req.params.id, req.body).then(function(openhouse){
+app.post('/openhouses/:id', (req, res) => {
+    sparkService.getOpenHouse(req.params.id, req.body).then(function(openhouse){
         res.json(openhouse);
     }).catch(function(err){
         console.log(err);
