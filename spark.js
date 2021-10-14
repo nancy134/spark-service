@@ -164,3 +164,145 @@ exports.getListings = function(body){
         });
     });
 }
+
+
+exports.getSystem = function(body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/system";
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getListingCarts = function(body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listingcarts";
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getListing = function(id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings/" + id ;
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getListingCart = function(id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listingcarts/" + id ;
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getListingPhotos = function(id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings/" + id + "/photos" ;
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getAccount = function(id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/accounts/" + id ;
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getContacts = function(body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts";
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getContact = function(id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/" + id ;
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}

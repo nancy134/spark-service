@@ -104,10 +104,86 @@ app.post('/listings', (req, res) => {
     });
 });
 
+app.post('/system', (req, res) => {
+    sparkService.getSystem(req.body).then(function(system){
+        res.json(system);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/listingcarts', (req, res) => {
+    sparkService.getListingCarts(req.body).then(function(listingcarts){
+        res.json(listingcarts);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 
 app.get('/', (req, res) => {
     res.send("spark-service");
 });
 
+
+app.post('/listings/:id', (req, res) => {
+    sparkService.getListing(req.params.id, req.body).then(function(listing){
+        res.json(listing);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.post('/listingcarts/:id', (req, res) => {
+    sparkService.getListingCart(req.params.id, req.body).then(function(listingcart){
+        res.json(listingcart);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.post('/listings/:id/photos', (req, res) => {
+    sparkService.getListingPhotos(req.params.id, req.body).then(function(listingphotos){
+        res.json(listingphotos);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.post('/accounts/:id', (req, res) => {
+    sparkService.getAccount(req.params.id, req.body).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/contacts', (req, res) => {
+    sparkService.getContacts(req.body).then(function(contacts){
+        res.json(contacts);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/contacts/:id', (req, res) => {
+    sparkService.getContact(req.params.id, req.body).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
 
 app.listen(PORT, HOST);
