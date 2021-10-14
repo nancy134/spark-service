@@ -11,7 +11,8 @@ exports.processAxiosError = function(error){
 exports.createHeaders = function(accessToken){
     var bearerToken = "Bearer " + accessToken;
     var headers = {
-        "Authorization" : bearerToken
+        "Authorization" : bearerToken,
+        "X-SparkApi-User-Agent": "MurbanSW"
     };
     return headers;
 }

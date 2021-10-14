@@ -95,6 +95,15 @@ app.post('/openhouses/:id', (req, res) => {
     });
 });
 
+app.post('/listings', (req, res) => {
+    sparkService.getListings(req.body).then(function(listings){
+        res.json(listings);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
 
 app.get('/', (req, res) => {
     res.send("spark-service");

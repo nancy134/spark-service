@@ -146,3 +146,21 @@ exports.getOpenhouse = function(id, body){
         });
     });
 }
+
+
+exports.getListings = function(body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings";
+        var headers = utilities.createHeaders(body.access_token);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
