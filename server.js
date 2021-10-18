@@ -213,4 +213,26 @@ app.post('/collectionListings', (req, res) => {
     });
 });
 
+
+app.post('/listingcarts', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.addListingCart(accessToken, req.body).then(function(listingcart){
+        res.json(listingcart);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/listingcarts/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.addListingToCart(accessToken, req.params.id, req.body).then(function(listingcart){
+        res.json(listingcart);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.listen(PORT, HOST);

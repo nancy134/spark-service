@@ -329,3 +329,39 @@ exports.getCollectionListings = function(accessToken, body){
     });
 }
 
+
+exports.addListingCart = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listingcarts";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            data: body
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.addListingToCart = function(accessToken, id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listingcarts/" + id;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            data: body
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
