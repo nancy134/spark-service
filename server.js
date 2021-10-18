@@ -234,5 +234,72 @@ app.post('/listingcarts/:id', (req, res) => {
     });
 });
 
+app.get('/accounts/:id/profile', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getAccountProfile(accessToken, req.params.id).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/accounts/meta', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getAccountMeta(accessToken, req.params.id).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/brokertours', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getBrokerTours(accessToken).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/savedsearches', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getSavedSearches(accessToken).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+exports.getSavedSearch = function(accessToken, id){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/savedsearches/" + id;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+app.get('/savedsearches/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getSavedSearch(accessToken, req.params.id).then(function(account){
+        res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
 
 app.listen(PORT, HOST);
