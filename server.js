@@ -7,6 +7,7 @@ const HOST = '0.0.0.0';
 
 const app = express();
 const sparkService = require('./spark');
+const utilities = require('./utilities');
 
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -14,8 +15,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-app.post('/properties', (req, res) => {
-    sparkService.getProperties(req.body).then(function(properties){
+app.get('/properties', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getProperties(accessToken).then(function(properties){
         res.json(properties);
     }).catch(function(err){
         console.log(err);
@@ -24,8 +26,9 @@ app.post('/properties', (req, res) => {
 });
 
 
-app.post('/members', (req, res) => {
-    sparkService.getMembers(req.body).then(function(members){
+app.get('/members', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getMembers(accessToken).then(function(members){
         res.json(members);
     }).catch(function(err){
         console.log(err);
@@ -34,8 +37,9 @@ app.post('/members', (req, res) => {
 });
 
 
-app.post('/offices', (req, res) => {
-    sparkService.getOffices(req.body).then(function(offices){
+app.get('/offices', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getOffices(accessToken).then(function(offices){
         res.json(offices);
     }).catch(function(err){
         console.log(err);
@@ -45,8 +49,9 @@ app.post('/offices', (req, res) => {
 
 
 
-app.post('/openhouses', (req, res) => {
-    sparkService.getOpenHouses(req.body).then(function(openhouses){
+app.get('/openhouses', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getOpenHouses(accessToken).then(function(openhouses){
         res.json(openhouses);
     }).catch(function(err){
         console.log(err);
@@ -55,8 +60,9 @@ app.post('/openhouses', (req, res) => {
 });
 
 
-app.post('/properties/:id', (req, res) => {
-    sparkService.getProperty(req.params.id, req.body).then(function(property){
+app.get('/properties/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getProperty(accessToken, req.params.id).then(function(property){
         res.json(property);
     }).catch(function(err){
         console.log(err);
@@ -65,8 +71,9 @@ app.post('/properties/:id', (req, res) => {
 });
 
 
-app.post('/members/:id', (req, res) => {
-    sparkService.getMember(req.params.id, req.body).then(function(member){
+app.get('/members/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getMember(accessToken, req.params.id).then(function(member){
         res.json(member);
     }).catch(function(err){
         console.log(err);
@@ -75,8 +82,9 @@ app.post('/members/:id', (req, res) => {
 });
 
 
-app.post('/offices/:id', (req, res) => {
-    sparkService.getOffice(req.params.id, req.body).then(function(office){
+app.get('/offices/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getOffice(accessToken, req.params.id).then(function(office){
         res.json(office);
     }).catch(function(err){
         console.log(err);
@@ -86,8 +94,9 @@ app.post('/offices/:id', (req, res) => {
 
 
 
-app.post('/openhouses/:id', (req, res) => {
-    sparkService.getOpenHouse(req.params.id, req.body).then(function(openhouse){
+app.get('/openhouses/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getOpenHouse(accessToken, req.params.id).then(function(openhouse){
         res.json(openhouse);
     }).catch(function(err){
         console.log(err);
@@ -95,8 +104,9 @@ app.post('/openhouses/:id', (req, res) => {
     });
 });
 
-app.post('/listings', (req, res) => {
-    sparkService.getListings(req.body).then(function(listings){
+app.get('/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getListings(accessToken).then(function(listings){
         res.json(listings);
     }).catch(function(err){
         console.log(err);
@@ -104,8 +114,9 @@ app.post('/listings', (req, res) => {
     });
 });
 
-app.post('/system', (req, res) => {
-    sparkService.getSystem(req.body).then(function(system){
+app.get('/system', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getSystem(accessToken).then(function(system){
         res.json(system);
     }).catch(function(err){
         console.log(err);
@@ -113,8 +124,9 @@ app.post('/system', (req, res) => {
     });
 });
 
-app.post('/listingcarts', (req, res) => {
-    sparkService.getListingCarts(req.body).then(function(listingcarts){
+app.get('/listingcarts', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getListingCarts(accessToken).then(function(listingcarts){
         res.json(listingcarts);
     }).catch(function(err){
         console.log(err);
@@ -129,8 +141,9 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/listings/:id', (req, res) => {
-    sparkService.getListing(req.params.id, req.body).then(function(listing){
+app.get('/listings/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getListing(accessToken, req.params.id).then(function(listing){
         res.json(listing);
     }).catch(function(err){
         console.log(err);
@@ -139,8 +152,9 @@ app.post('/listings/:id', (req, res) => {
 });
 
 
-app.post('/listingcarts/:id', (req, res) => {
-    sparkService.getListingCart(req.params.id, req.body).then(function(listingcart){
+app.get('/listingcarts/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getListingCart(accessToken, req.params.id).then(function(listingcart){
         res.json(listingcart);
     }).catch(function(err){
         console.log(err);
@@ -149,8 +163,9 @@ app.post('/listingcarts/:id', (req, res) => {
 });
 
 
-app.post('/listings/:id/photos', (req, res) => {
-    sparkService.getListingPhotos(req.params.id, req.body).then(function(listingphotos){
+app.get('/listings/:id/photos', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getListingPhotos(accessToken, req.params.id).then(function(listingphotos){
         res.json(listingphotos);
     }).catch(function(err){
         console.log(err);
@@ -159,8 +174,9 @@ app.post('/listings/:id/photos', (req, res) => {
 });
 
 
-app.post('/accounts/:id', (req, res) => {
-    sparkService.getAccount(req.params.id, req.body).then(function(account){
+app.get('/accounts/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getAccount(accessToken, req.params.id).then(function(account){
         res.json(account);
     }).catch(function(err){
         console.log(err);
@@ -168,8 +184,9 @@ app.post('/accounts/:id', (req, res) => {
     });
 });
 
-app.post('/contacts', (req, res) => {
-    sparkService.getContacts(req.body).then(function(contacts){
+app.get('/contacts', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContacts(accessToken).then(function(contacts){
         res.json(contacts);
     }).catch(function(err){
         console.log(err);
@@ -177,11 +194,21 @@ app.post('/contacts', (req, res) => {
     });
 });
 
-app.post('/contacts/:id', (req, res) => {
-    sparkService.getContact(req.params.id, req.body).then(function(contact){
+app.get('/contacts/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContact(accessToken, req.params.id).then(function(contact){
         res.json(contact);
     }).catch(function(err){
         console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/collectionListings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getCollectionListings(accessToken, req.body).then(function(listings){
+        res.json(listings);
+    }).catch(function(err){
         res.status(400).json(err);
     });
 });

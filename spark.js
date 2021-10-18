@@ -1,10 +1,10 @@
 const axios = require('axios');
 const utilities = require('./utilities');
 
-exports.getProperties = function(body){
+exports.getProperties = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Property";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -19,10 +19,10 @@ exports.getProperties = function(body){
 }
 
 
-exports.getMembers = function(body){
+exports.getMembers = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Member";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -37,10 +37,10 @@ exports.getMembers = function(body){
 }
 
 
-exports.getOffices = function(body){
+exports.getOffices = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Office";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -55,10 +55,10 @@ exports.getOffices = function(body){
 }
 
 
-exports.getOpenHouses = function(body){
+exports.getOpenHouses = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/OpenHouse";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -73,10 +73,10 @@ exports.getOpenHouses = function(body){
 }
 
 
-exports.getProperty = function(id, body){
+exports.getProperty = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Property" + "('" + id + "')";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -91,10 +91,10 @@ exports.getProperty = function(id, body){
 }
 
 
-exports.getMember = function(id, body){
+exports.getMember = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Member" + "('" + id + "')";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -111,10 +111,10 @@ exports.getMember = function(id, body){
 
 
 
-exports.getOffice = function(id, body){
+exports.getOffice = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Office" + "('" + id + "')";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -130,10 +130,10 @@ exports.getOffice = function(id, body){
 
 
 
-exports.getOpenhouse = function(id, body){
+exports.getOpenhouse = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Openhouse" + "('" + id + "')";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -148,10 +148,10 @@ exports.getOpenhouse = function(id, body){
 }
 
 
-exports.getListings = function(body){
+exports.getListings = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -166,10 +166,10 @@ exports.getListings = function(body){
 }
 
 
-exports.getSystem = function(body){
+exports.getSystem = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/system";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -184,10 +184,10 @@ exports.getSystem = function(body){
 }
 
 
-exports.getListingCarts = function(body){
+exports.getListingCarts = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listingcarts";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -202,10 +202,10 @@ exports.getListingCarts = function(body){
 }
 
 
-exports.getListing = function(id, body){
+exports.getListing = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings/" + id ;
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -220,10 +220,10 @@ exports.getListing = function(id, body){
 }
 
 
-exports.getListingCart = function(id, body){
+exports.getListingCart = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listingcarts/" + id ;
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -237,10 +237,10 @@ exports.getListingCart = function(id, body){
     });
 }
 
-exports.getListingPhotos = function(id, body){
+exports.getListingPhotos = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings/" + id + "/photos" ;
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -255,10 +255,10 @@ exports.getListingPhotos = function(id, body){
 }
 
 
-exports.getAccount = function(id, body){
+exports.getAccount = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/accounts/" + id ;
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -272,10 +272,10 @@ exports.getAccount = function(id, body){
     });
 }
 
-exports.getContacts = function(body){
+exports.getContacts = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts";
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -290,10 +290,10 @@ exports.getContacts = function(body){
 }
 
 
-exports.getContact = function(id, body){
+exports.getContact = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts/" + id ;
-        var headers = utilities.createHeaders(body.access_token);
+        var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
@@ -306,3 +306,26 @@ exports.getContact = function(id, body){
         });
     });
 }
+
+exports.getCollectionListings = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var promises = [];
+        var getListingPromise;
+        for (var i=0; i<body.listings.length; i++){
+            getListingPromise = exports.getListing(accessToken, body.listings[i]);
+	    promises.push(getListingPromise);
+        }
+        Promise.all(promises).then(function(results){
+            var newResults = [];
+            var result;
+            for (var j=0; j<results.length; j++){
+                result = results[j].D.Results[0];
+                newResults.push(result);
+            }
+            resolve(newResults);
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+}
+
