@@ -106,13 +106,14 @@ app.get('/openhouses/:id', (req, res) => {
 
 app.get('/listings', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    sparkService.getListings(accessToken).then(function(listings){
+    sparkService.getListings(accessToken, req.query).then(function(listings){
         res.json(listings);
     }).catch(function(err){
         console.log(err);
         res.status(400).json(err);
     });
 });
+
 
 app.get('/system', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
@@ -295,6 +296,17 @@ app.get('/savedsearches/:id', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
     sparkService.getSavedSearch(accessToken, req.params.id).then(function(account){
         res.json(account);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.get('/quicksearches', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getQuickSearches(accessToken).then(function(searches){
+        res.json(searches);
     }).catch(function(err){
         console.log(err);
         res.status(400).json(err);

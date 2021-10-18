@@ -148,9 +148,12 @@ exports.getOpenhouse = function(accessToken, id){
 }
 
 
-exports.getListings = function(accessToken){
+exports.getListings = function(accessToken, query){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings";
+        if (query && query._filter){
+            url += "?" + "_filter=" + query._filter;
+        }            
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -439,6 +442,24 @@ exports.getSavedSearches = function(accessToken){
 exports.getSavedSearch = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/savedsearches/" + id;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getQuickSearches = function(accessToken){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/searchtemplates/quicksearches";
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
