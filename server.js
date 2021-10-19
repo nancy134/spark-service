@@ -313,5 +313,14 @@ app.get('/quicksearches', (req, res) => {
     });
 });
 
+app.delete('/listingcarts/:id/listings/:listingId', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.deleteListingCart(accessToken, req.params.id, req.params.listingId).then(function(listingcart){
+        res.json(listingcart);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
 
 app.listen(PORT, HOST);
