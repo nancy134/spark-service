@@ -490,3 +490,88 @@ exports.deleteListingCart = function(accessToken, id, listingId){
         });
     });
 }
+
+exports.getContactPortal = function(accessToken, id){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/" + id + "/portal" ;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getContactSavedSearches = function(accessToken, id){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/" + id + "/savedsearches" ;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getContactActivity = function(accessToken, id){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/" + id + "/activity" ;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getStandardFields = function(accessToken){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/standardfields";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getContactsExport = function(accessToken){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/export/all";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}

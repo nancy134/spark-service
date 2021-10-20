@@ -323,4 +323,56 @@ app.delete('/listingcarts/:id/listings/:listingId', (req, res) => {
     });
 });
 
+app.get('/contacts/:id/portal', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContactPortal(accessToken, req.params.id).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/contacts/:id/savedsearches', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContactSavedSearches(accessToken, req.params.id).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/contacts/:id/activity', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContactActivity(accessToken, req.params.id).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
+app.get('/standardfields', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getStandardFields(accessToken).then(function(fields){
+        res.json(fields);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/contacts/export/all', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getContactsExport(accessToken).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.listen(PORT, HOST);
