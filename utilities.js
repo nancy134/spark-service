@@ -62,6 +62,10 @@ exports.getEmailData = function(listings){
 
             listing.price = f.ListPrice;
 
+            if (f.Photos && f.Photos.length){
+                listing.photo = f.Photos[0].Uri300;
+            }
+
             console.log(listing);
             emailData.push(listing);
         }

@@ -9,6 +9,8 @@ const app = express();
 const sparkService = require('./spark');
 const utilities = require('./utilities');
 
+const url = require('url');
+
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -106,14 +108,16 @@ app.get('/openhouses/:id', (req, res) => {
 
 app.get('/listings', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    sparkService.getListings(accessToken, req.query).then(function(listings){
+    var urlParts  = url.parse(req.url);
+    var queryStr = urlParts.query;
+    console.log(queryStr);
+    sparkService.getListings(accessToken, queryStr).then(function(listings){
         res.json(listings);
     }).catch(function(err){
         console.log(err);
         res.status(400).json(err);
     });
 });
-
 
 app.get('/system', (req, res) => {
     var accessToken = utilities.getAccessToken(req);

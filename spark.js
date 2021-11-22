@@ -151,8 +151,9 @@ exports.getOpenhouse = function(accessToken, id){
 exports.getListings = function(accessToken, query){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings";
-        if (query && query._filter){
-            url += "?" + "_filter=" + query._filter;
+        console.log(query);
+        if (query){
+            url += "?" + query;
         }
         console.log(url);
         var headers = utilities.createHeaders(accessToken);
@@ -170,6 +171,7 @@ exports.getListings = function(accessToken, query){
         });
     });
 }
+
 
 
 exports.getSystem = function(accessToken){
