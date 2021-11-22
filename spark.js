@@ -153,7 +153,8 @@ exports.getListings = function(accessToken, query){
         var url = "https://sparkapi.com/v1" + "/listings";
         if (query && query._filter){
             url += "?" + "_filter=" + query._filter;
-        }            
+        }
+        console.log(url);
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -161,7 +162,9 @@ exports.getListings = function(accessToken, query){
             headers: headers
         };
         axios(options).then(function(result){
-            resolve(result.data);
+            //var emailData = utilities.getEmailData(result);
+            var emailData = utilities.getEmailData(result.data);
+            resolve(emailData);
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });
