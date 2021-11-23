@@ -378,5 +378,13 @@ app.get('/contacts/export/all', (req, res) => {
     });
 });
 
+app.post('/emails/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.createEmail(accessToken, req.params.id).then(function(email){
+        res.json(email);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
 
 app.listen(PORT, HOST);
