@@ -72,3 +72,53 @@ exports.getEmailData = function(listings){
     }
     return(emailData);
 }
+
+
+exports.getAccountData = function(accounts){
+    var account = {};
+    if (accounts.D && accounts.D.Results.length){
+    
+        var f = accounts.D.Results[0];
+
+        account.first = f.FirstName;
+        account.last = f.LastName;
+
+        var i = 0;
+        if (f.Emails){
+            for (i = 0; i<f.Emails.length; i++){
+                if (f.Emails[i].ProfileDisplay === true){
+                    account.email = f.Emails[i].Address;
+                }
+            }
+        }
+      
+        if (f.Phones){
+            for (i = 0; i<f.Phones.length; i++){
+                if (f.Phones[i].ProfileDisplay === true){
+                    account.phone = f.Phones[i].Number;
+                }
+            }
+        }
+
+        if (f.Websites){
+            for (i = 0; i<f.Websites.length; i++){
+                if (f.Websites[i].ProfileDisplay === true){
+                    account.website = f.Websites[i].Uri;
+                }
+            }
+        }
+
+        if (f.Addresses){
+            for (i = 0; i<f.Addresses.length; i++){
+                if (f.Addresses[i].ProfileDisplay === true){
+                    account.address = f.Addresses[i].Address;
+                }
+            }
+        }
+
+        
+        console.log(account);
+    }
+    return(account);
+}
+

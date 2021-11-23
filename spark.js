@@ -273,7 +273,8 @@ exports.getAccount = function(accessToken, id){
             headers: headers
         };
         axios(options).then(function(result){
-            resolve(result.data);
+            var account = utilities.getAccountData(result.data);
+            resolve(account);
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });
