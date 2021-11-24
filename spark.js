@@ -694,7 +694,11 @@ exports.createEmail = function(accessToken, id){
             };
             dataSource.value.push(horizontalRight);
 
-
+            // Footer
+            var footer = { 
+                id: "footer"
+            };
+            dataSource.value.push(footer);
 
             dataSources.push(dataSource);
             email.dataSources = dataSources;
