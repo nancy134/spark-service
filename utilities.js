@@ -122,3 +122,17 @@ exports.getAccountData = function(accounts){
     return(account);
 }
 
+exports.numberWithCommas = function(x){
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+exports.createTitle = function(emailData){
+
+    var beds = emailData.beds;
+    var baths = emailData.baths;
+    var sqft = emailData.sqft;
+    
+    var title = beds + " bd, " + baths + " ba, " + numberWithCommas(sqft) + " sqft";
+    
+    return(title);
+}
