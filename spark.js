@@ -611,11 +611,13 @@ exports.createEmail = function(accessToken, id){
             // 3 Listing Row
             var content = [];
             for (var i=0; i<3; i++){
+                var title = utilities.createTitle(emailData[i]);
                 var data = {
                     id: "listing_1_of_3",
                     values: {
                         p_price: emailData[i].price,
                         p_image: emailData[i].photo,
+                        p_name: title,
                         p_description: emailData[i].address
                     }
                 }
