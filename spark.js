@@ -586,7 +586,7 @@ exports.createEmail = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings" +
         "?_expand=Photos&_filter=SavedSearch Eq '" + id + "'";
-        
+
         console.log(url);
         var headers = utilities.createHeaders(accessToken);
         var options = {
@@ -596,7 +596,6 @@ exports.createEmail = function(accessToken, id){
         };
         axios(options).then(function(result){
             var emailData = utilities.getEmailData(result.data);
-            //resolve(emailData);
             var dataSources = [];
 
             var dataSource = {};
@@ -605,27 +604,31 @@ exports.createEmail = function(accessToken, id){
             dataSource.type = "RAW";
             dataSource.value = [];
 
-            var agency = { id: "agency"};
+            // Header
+            var header = { id: "header_logo"};
+            dataSource.value.push(header);
 
+            // 3 Listing Row
             var content = [];
             for (var i=0; i<3; i++){
                 var data = {
-                    id: "container_product",
+                    id: "listing_1_of_3",
                     values: {
-                        p_price: emailData[i].price
+                        p_price: emailData[i].price,
+                        p_image: emailData[i].photo,
+                        p_description: emailData[i].address
                     }
                 }
                 content.push(data);
             }
 
             var emptyStructure3 = {
-                id: "structure_empty",
+                id: "empty_structure_3",
                 content: content
             };
 
             dataSource.value.push(emptyStructure3);
-            
-            dataSource.value.push(agency);
+
 
             dataSources.push(dataSource);
             email.dataSources = dataSources;
