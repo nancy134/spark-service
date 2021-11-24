@@ -631,6 +631,40 @@ exports.createEmail = function(accessToken, id){
 
             dataSource.value.push(emptyStructure3);
 
+            // 2 Listing Row
+            content = [];
+            title = utilities.createTitle(emailData[3]);
+            data = {
+                id: "listing_2_left",
+                values: {
+                    p_price: emailData[3].price,
+                    p_image: emailData[3].photo,
+                    p_description: emailData[3].address,
+                    p_name: title
+                
+                }
+            };
+            content.push(data);
+            title = utilities.createTitle(emailData[4]);
+
+            data = {
+                id: "listing_2_right",
+                values: {
+                    p_price: emailData[4].price,
+                    p_image: emailData[4].photo,
+                    p_description: emailData[4].address,
+                    p_name: title
+                }
+            };
+            content.push(data);
+            
+            
+            var emptyStructure2 = {
+                id: "empty_structure_2",
+                content: content
+            };
+            dataSource.value.push(emptyStructure2);
+
 
             dataSources.push(dataSource);
             email.dataSources = dataSources;
