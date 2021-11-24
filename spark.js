@@ -663,7 +663,37 @@ exports.createEmail = function(accessToken, id){
                 id: "empty_structure_2",
                 content: content
             };
+
             dataSource.value.push(emptyStructure2);
+
+            // Horizontal left
+            title = utilities.createTitle(emailData[5]);
+            var horizontalLeft = { 
+                id: "listing_horizontal_left",
+                values: {
+                    p_price: emailData[5].price,
+                    p_image: emailData[5].photo,
+                    p_description: emailData[5].address,
+                    p_name: title
+
+                }
+            };
+            dataSource.value.push(horizontalLeft);
+
+            // Horizontal right
+            title = utilities.createTitle(emailData[6]);
+            var horizontalRight = { 
+                id: "listing_horizontal_right",
+                values: {
+                    p_price: emailData[6].price,
+                    p_image: emailData[6].photo,
+                    p_description: emailData[6].address,
+                    p_name: title
+
+                }
+            };
+            dataSource.value.push(horizontalRight);
+
 
 
             dataSources.push(dataSource);
