@@ -132,7 +132,7 @@ exports.createTitle = function(emailData){
     var baths = emailData.baths;
     var sqft = emailData.sqft;
     
-    var title = beds + " bd, " + baths + " ba, " + numberWithCommas(sqft) + " sqft";
+    var title = beds + " bd, " + baths + " ba, " + exports.numberWithCommas(sqft) + " sqft";
     
     return(title);
 }
