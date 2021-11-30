@@ -22,7 +22,6 @@ app.get('/properties', (req, res) => {
     sparkService.getProperties(accessToken).then(function(properties){
         res.json(properties);
     }).catch(function(err){
-        console.log(err);
         res.status(400).json(err);
     });
 });
@@ -33,7 +32,6 @@ app.get('/members', (req, res) => {
     sparkService.getMembers(accessToken).then(function(members){
         res.json(members);
     }).catch(function(err){
-        console.log(err);
         res.status(400).json(err);
     });
 });
@@ -44,7 +42,6 @@ app.get('/offices', (req, res) => {
     sparkService.getOffices(accessToken).then(function(offices){
         res.json(offices);
     }).catch(function(err){
-        console.log(err);
         res.status(400).json(err);
     });
 });

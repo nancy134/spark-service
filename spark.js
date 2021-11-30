@@ -151,11 +151,9 @@ exports.getOpenhouse = function(accessToken, id){
 exports.getListings = function(accessToken, query){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings";
-        console.log(query);
         if (query){
             url += "?" + query;
         }
-        console.log(url);
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -163,9 +161,9 @@ exports.getListings = function(accessToken, query){
             headers: headers
         };
         axios(options).then(function(result){
-            //var emailData = utilities.getEmailData(result);
-            var emailData = utilities.getEmailData(result.data);
-            resolve(emailData);
+            //var emailData = utilities.getEmailData(result.data);
+            //resolve(emailData);
+            resolve(result.data);
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });
@@ -583,17 +581,18 @@ exports.getContactsExport = function(accessToken){
 }
 
 exports.createEmail = function(accessToken, id){
+   
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings" +
         "?_expand=Photos&_filter=SavedSearch Eq '" + id + "'";
-
-        console.log(url);
+       
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
             method: 'GET',
             headers: headers
         };
+
         axios(options).then(function(result){
             var emailData = utilities.getEmailData(result.data);
             var dataSources = [];
@@ -608,91 +607,99 @@ exports.createEmail = function(accessToken, id){
             var header = { id: "header_logo"};
             dataSource.value.push(header);
 
+            // Title
+            var title = {id: "header3"};
+            dataSource.value.push(title);
+
             // 3 Listing Row
-            var content = [];
-            for (var i=0; i<3; i++){
-                var title = utilities.createTitle(emailData[i]);
-                var data = {
-                    id: "listing_1_of_3",
-                    values: {
-                        p_price: emailData[i].price,
-                        p_image: emailData[i].photo,
-                        p_name: title,
-                        p_description: emailData[i].address
+            if (emailData.length >= 3){
+                var content = [];
+                for (var i=0; i<3; i++){
+                    var title = utilities.createTitle(emailData[i]);
+                    var data = {
+                        id: "listing_1_of_3",
+                        values: {
+                            p_price: emailData[i].price,
+                            p_image: emailData[i].photo,
+                            p_name: title,
+                            p_description: emailData[i].address
+                        }
                     }
-                }
-                content.push(data);
+                    content.push(data);
+                } 
+
+                var emptyStructure3 = {
+                    id: "empty_structure_3",
+                    content: content
+                };
+
+                dataSource.value.push(emptyStructure3);
             }
 
-            var emptyStructure3 = {
-                id: "empty_structure_3",
-                content: content
-            };
-
-            dataSource.value.push(emptyStructure3);
-
             // 2 Listing Row
-            content = [];
-            title = utilities.createTitle(emailData[3]);
-            data = {
-                id: "listing_2_left",
-                values: {
-                    p_price: emailData[3].price,
-                    p_image: emailData[3].photo,
-                    p_description: emailData[3].address,
-                    p_name: title
-                
-                }
-            };
-            content.push(data);
-            title = utilities.createTitle(emailData[4]);
+            if (emailData.length >= 5){
+                content = [];
+                title = utilities.createTitle(emailData[3]);
+                data = {
+                    id: "listing_2_left",
+                    values: {
+                        p_price: emailData[3].price,
+                        p_image: emailData[3].photo,
+                        p_description: emailData[3].address,
+                        p_name: title
+                    }
+                };
+                content.push(data);
 
-            data = {
-                id: "listing_2_right",
-                values: {
-                    p_price: emailData[4].price,
-                    p_image: emailData[4].photo,
-                    p_description: emailData[4].address,
-                    p_name: title
-                }
-            };
-            content.push(data);
+                title = utilities.createTitle(emailData[4]);
             
+                data = {
+                    id: "listing_2_right",
+                    values: {
+                        p_price: emailData[4].price,
+                        p_image: emailData[4].photo,
+                        p_description: emailData[4].address,
+                        p_name: title
+                    }
+                };
+                content.push(data);
             
-            var emptyStructure2 = {
-                id: "empty_structure_2",
-                content: content
-            };
+                var emptyStructure2 = {
+                    id: "empty_structure_2",
+                    content: content
+                };
 
-            dataSource.value.push(emptyStructure2);
+                dataSource.value.push(emptyStructure2);
+            }
 
-            // Horizontal left
-            title = utilities.createTitle(emailData[5]);
-            var horizontalLeft = { 
-                id: "listing_horizontal_left",
-                values: {
-                    p_price: emailData[5].price,
-                    p_image: emailData[5].photo,
-                    p_description: emailData[5].address,
-                    p_name: title
+            if (emailData.length >= 7){
 
-                }
-            };
-            dataSource.value.push(horizontalLeft);
+                // Horizontal left
+                title = utilities.createTitle(emailData[5]);
+                var horizontalLeft = { 
+                    id: "listing_horizontal_left",
+                    values: {
+                        p_price: emailData[5].price,
+                        p_image: emailData[5].photo,
+                        p_description: emailData[5].address,
+                        p_name: title
+                    }
+                };
+                dataSource.value.push(horizontalLeft);
 
-            // Horizontal right
-            title = utilities.createTitle(emailData[6]);
-            var horizontalRight = { 
-                id: "listing_horizontal_right",
-                values: {
-                    p_price: emailData[6].price,
-                    p_image: emailData[6].photo,
-                    p_description: emailData[6].address,
-                    p_name: title
-
-                }
-            };
-            dataSource.value.push(horizontalRight);
+                // Horizontal right
+                title = utilities.createTitle(emailData[6]);
+                var horizontalRight = { 
+                    id: "listing_horizontal_right",
+                    values: {
+                        p_price: emailData[6].price,
+                        p_image: emailData[6].photo,
+                        p_description: emailData[6].address,
+                        p_name: title
+                    }
+                };
+                dataSource.value.push(horizontalRight);
+            }
 
             // Footer
             var footer = { 
