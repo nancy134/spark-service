@@ -594,6 +594,9 @@ exports.createEmail = function(accessToken, id){
         };
 
         axios(options).then(function(result){
+            var sharedLinkBody = utilities.createSharedLinkBody(result.data);
+            console.log(sharedLinkBody);
+            
             var emailData = utilities.getEmailData(result.data);
             var dataSources = [];
 
@@ -616,13 +619,19 @@ exports.createEmail = function(accessToken, id){
                 var content = [];
                 for (var i=0; i<3; i++){
                     var title = utilities.createTitle(emailData[i]);
+                    var specs = utilities.createSpecs(emailData[i]);
+
                     var data = {
                         id: "listing_1_of_3",
                         values: {
-                            p_price: emailData[i].price,
+                            //p_price: emailData[i].price,
+                            p_price: utilities.formatPrice(emailData[i].price),
                             p_image: emailData[i].photo,
                             p_name: title,
-                            p_description: emailData[i].address
+                            p_address: emailData[i].address,
+                            p_city: emailData[i].city,
+                            p_description: emailData[i].description,
+                            p_spec: specs
                         }
                     }
                     content.push(data);
@@ -643,10 +652,13 @@ exports.createEmail = function(accessToken, id){
                 data = {
                     id: "listing_2_left",
                     values: {
-                        p_price: emailData[3].price,
+                        p_price: utilities.formatPrice(emailData[3].price),
                         p_image: emailData[3].photo,
-                        p_description: emailData[3].address,
-                        p_name: title
+                        p_address: emailData[3].address,
+                        p_city: emailData[3].city,
+                        p_name: title,
+                        p_description: emailData[3].description,
+                        p_spec: specs
                     }
                 };
                 content.push(data);
@@ -656,10 +668,13 @@ exports.createEmail = function(accessToken, id){
                 data = {
                     id: "listing_2_right",
                     values: {
-                        p_price: emailData[4].price,
+                        p_price: utilities.formatPrice(emailData[4].price),
                         p_image: emailData[4].photo,
-                        p_description: emailData[4].address,
-                        p_name: title
+                        p_address: emailData[4].address,
+                        p_city: emailData[4].city,
+                        p_name: title,
+                        p_description: emailData[4].description,
+                        p_spec: specs
                     }
                 };
                 content.push(data);
@@ -679,10 +694,12 @@ exports.createEmail = function(accessToken, id){
                 var horizontalLeft = { 
                     id: "listing_horizontal_left",
                     values: {
-                        p_price: emailData[5].price,
+                        p_price: utilities.formatPrice(emailData[5].price),
                         p_image: emailData[5].photo,
-                        p_description: emailData[5].address,
-                        p_name: title
+                        p_address: emailData[5].address,
+                        p_city: emailData[5].city,
+                        p_name: title,
+                        p_description: emailData[5].description
                     }
                 };
                 dataSource.value.push(horizontalLeft);
@@ -692,10 +709,13 @@ exports.createEmail = function(accessToken, id){
                 var horizontalRight = { 
                     id: "listing_horizontal_right",
                     values: {
-                        p_price: emailData[6].price,
+                        p_price: utilities.formatPrice(emailData[6].price),
                         p_image: emailData[6].photo,
-                        p_description: emailData[6].address,
-                        p_name: title
+                        p_address: emailData[6].address,
+                        p_city: emailData[6].city,
+                        p_name: title,
+                        p_description: emailData[6].description,
+                        p_spec: specs
                     }
                 };
                 dataSource.value.push(horizontalRight);

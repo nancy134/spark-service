@@ -137,3 +137,33 @@ exports.createTitle = function(emailData){
     }
     return(title);
 }
+
+
+exports.createSharedLinkBody = function(listings){
+    var sharedLinkBody = {};
+    var listingIds = [];
+    if (listings.D && listings.D.Results){
+        for (var i=0; i<listings.D.Results.length; i++){
+            var f = listings.D.Results[i].StandardFields;
+            listingIds.push(f.ListingKey);
+        }
+        sharedLinkBody.D = {
+            ListingIds: listingIds
+        };
+    }
+    return(sharedLinkBody);
+}
+
+exports.formatPrice = function(price){
+    var formattedPrice = "$" + exports.numberWithCommas(price);
+    return formattedPrice;
+}
+
+exports.createSpecs = function(emailData){
+    var beds = emailData.beds;
+    var baths = emailData.baths;
+    var sqft = emailData.sqft;
+
+    var specs = beds + " bd, " + baths + " ba, " + exports.numberWithCommas(sqft) + " sqft";
+    return(specs);
+}
