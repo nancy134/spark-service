@@ -384,4 +384,46 @@ app.post('/emails/:id', (req, res) => {
     });
 });
 
+app.get('/sharedLinks', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getSharedLinks(accessToken).then(function(sharedLinks){
+        res.json(sharedLinks);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/sharedLinks/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    //sparkService.createSharedLink(accessToken).then(function(sharedLink){
+    sparkService.createSharedLink(accessToken, req.body).then(function(sharedLink){
+        res.json(sharedLink);
+        }).catch(function(err){
+            console.log(err);
+            res.status(400).json(err);
+        });
+});
+
+app.get('/sharedlinks/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getSharedLink(accessToken, req.params.id).then(function(sharedLink){
+        res.json(sharedLink);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/sharedLinks/search', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.createSharedLinkSearch(accessToken, req.body).then(function(sharedLink){
+        res.json(sharedLink);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.listen(PORT, HOST);

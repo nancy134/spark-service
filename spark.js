@@ -718,3 +718,78 @@ exports.createEmail = function(accessToken, id){
         });
     });
 }
+
+
+exports.getSharedLinks = function(accessToken){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/sharedlinks";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.createSharedLink = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/sharedlinks/listings";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            data: body
+            
+        };
+        console.log(options);
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getSharedLink = function(accessToken, id){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/sharedlinks/" + id ;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.createSharedLinkSearch = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/sharedlinks/search";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            data: body
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
