@@ -425,5 +425,45 @@ app.post('/sharedLinks/search', (req, res) => {
     });
 });
 
+app.get('/my/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getMyListings(accessToken).then(function(listings){
+        res.json(listings);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/office/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getOfficeListings(accessToken).then(function(listings){
+        res.json(listings);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.get('/company/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getCompanyListings(accessToken).then(function(listings){
+        res.json(listings);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+app.post('/listings', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.createListing(accessToken, req.body).then(function(listing){
+        res.json(listing);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
 
 app.listen(PORT, HOST);

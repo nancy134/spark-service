@@ -813,3 +813,80 @@ exports.createSharedLinkSearch = function(accessToken, body){
 }
 
 
+exports.getMyListings = function(accessToken, query){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/my/listings";
+        if (query){
+            url += "?" + query;
+        }
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getOfficeListings = function(accessToken, query){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/office/listings";
+        if (query){
+            url += "?" + query;
+        }
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.getCompanyListings = function(accessToken, query){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/company/listings";
+        if (query){
+            url += "?" + query;
+        }
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.createListing = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            headers: headers,
+            data: body
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
