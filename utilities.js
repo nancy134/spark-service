@@ -69,6 +69,8 @@ exports.getEmailData = function(listings){
             emailData.push(listing);
         }
     }
+    console.log(emailData);
+
     return(emailData);
 }
 
@@ -162,6 +164,15 @@ exports.createSpecs = function(emailData){
     var baths = emailData.baths;
     var sqft = emailData.sqft;
 
-    var specs = beds + " bd, " + baths + " ba, " + exports.numberWithCommas(sqft) + " sqft";
+    var specs = "";
+    if (beds){
+        specs += beds + "bd ";
+    }
+    if (baths){
+        specs += baths + "ba ";
+    }
+    if (sqft){
+        specs += exports.numberWithCommas(sqft) + "sqft";
+    }
     return(specs);
 }
