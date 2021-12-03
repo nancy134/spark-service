@@ -125,19 +125,17 @@ exports.numberWithCommas = function(x){
 }
 
 exports.createTitle = function(emailData){
-    var beds = emailData.beds;
-    var baths = emailData.baths;
-    var sqft = emailData.sqft;
-    
-    var title = beds + " bd, " + baths + " ba, " + exports.numberWithCommas(sqft) + " sqft";
 
-    var strArray = emailData.description.split(' ');
-    if (strArray.length >= 3){
-        title = strArray[0]+" "+strArray[1]+" "+strArray[2];
+    var title = "";
+    
+    if (emailData.description){
+        var strArray = emailData.description.split(' ');
+        if (strArray.length >= 3){
+            title = strArray[0]+" "+strArray[1]+" "+strArray[2];
+        }
     }
     return(title);
 }
-
 
 exports.createSharedLinkBody = function(listings){
     var sharedLinkBody = {};
