@@ -890,3 +890,46 @@ exports.createListing = function(accessToken, body){
         });
     });
 }
+
+exports.createEmailMustache = function(accessToken, id){
+   
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings" +
+        "?_expand=Photos&_filter=SavedSearch Eq '" + id + "'";
+       
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+
+        axios(options).then(function(result){
+            var sharedLinkBody = utilities.createSharedLinkBody(result.data);
+            console.log(sharedLinkBody);
+            
+            var emailData = utilities.getEmailData(result.data);
+            var mustacheData = [];
+
+            for (var i=0; i<emailData.length; i++){
+                var title = utilities.createTitle(emailData[i]);
+                var specs = utilities.createSpecs(emailData[i]);
+
+                var data = {
+                    p_price: utilities.formatPrice(emailData[i].price),
+                    p_image: emailData[i].photo,
+                    p_name: title,
+                    p_address: emailData[i].address,
+                    p_city: emailData[i].city,
+                    p_description: emailData[i].description,
+                    p_spec: specs
+                }
+                mustacheData.push(data);
+            }
+            resolve(mustacheData);
+
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
