@@ -41,18 +41,18 @@ exports.getEmailData = function(listings){
         for (var i=0; i<listings.D.Results.length; i++){
             var listing = {};
             var f = listings.D.Results[i].StandardFields;
-            
+
             listing.baths = f.BathsTotal;
             listing.beds = f.BedsTotal;
 
-            var address = 
+            var address =
                 Strings.orEmpty(f.StreetNumber) + " " +
                 Strings.orEmpty(f.StreetDirPrefix) + " " +
                 Strings.orEmpty(f.StreetName) + " " +
                 Strings.orEmpty(f.StreetSuffix) + " "  +
                 Strings.orEmpty(f.StreetDirSuffix) + " " +
                 Strings.orEmpty(f.StreetAdditionalInfo);
-            
+
             listing.address = address
 
             var city = f.City + ", " + f.StateOrProvince;
@@ -61,6 +61,7 @@ exports.getEmailData = function(listings){
             listing.description = f.PublicRemarks;
 
             listing.price = f.ListPrice;
+            listing.id = f.ListingKey;
 
             if (f.Photos && f.Photos.length){
                 listing.photo = f.Photos[0].Uri300;
@@ -73,7 +74,6 @@ exports.getEmailData = function(listings){
 
     return(emailData);
 }
-
 
 exports.getAccountData = function(accounts){
     var account = {};

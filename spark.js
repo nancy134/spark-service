@@ -911,9 +911,16 @@ exports.createEmailMustache = function(accessToken, id){
                 var mustacheData = [];
 
                 for (var i=0; i<emailData.length; i++){
-                   var title = utilities.createTitle(emailData[i]);
-                   var specs = utilities.createSpecs(emailData[i]);
-
+                    var title = utilities.createTitle(emailData[i]);
+                    var specs = utilities.createSpecs(emailData[i]);
+                    var url = "";
+                    for (var j=0; j<links.length; j++){
+                        var ListingKey = links[j].D.Results[0].ListingIds[0];
+                        if (ListingKey === emailData[i].id){
+                            url = links[j].D.Results[0].SharedUri;
+                            break;
+                        }
+                    }
                     var data = {
                         p_price: utilities.formatPrice(emailData[i].price),
                         p_image: emailData[i].photo,
@@ -921,7 +928,8 @@ exports.createEmailMustache = function(accessToken, id){
                         p_address: emailData[i].address,
                         p_city: emailData[i].city,
                         p_description: emailData[i].description,
-                        p_spec: specs
+                        p_spec: specs,
+                        p_url: url
                     }
                     mustacheData.push(data);
                 }
