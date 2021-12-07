@@ -474,4 +474,13 @@ app.post('/emails/:id/mustache', (req, res) => {
     });
 });
 
+app.post('/emails/:id/links', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.createEmailLinks(accessToken, req.params.id).then(function(email){
+        res.json(email);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
 app.listen(PORT, HOST);

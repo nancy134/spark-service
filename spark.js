@@ -892,11 +892,11 @@ exports.createListing = function(accessToken, body){
 }
 
 exports.createEmailMustache = function(accessToken, id){
-   
+
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings" +
         "?_expand=Photos&_filter=SavedSearch Eq '" + id + "'";
-       
+
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -905,28 +905,68 @@ exports.createEmailMustache = function(accessToken, id){
         };
 
         axios(options).then(function(result){
-            var sharedLinkBody = utilities.createSharedLinkBody(result.data);
-            console.log(sharedLinkBody);
-            
-            var emailData = utilities.getEmailData(result.data);
-            var mustacheData = [];
+            exports.createEmailLinks(accessToken, id).then(function(links){
 
-            for (var i=0; i<emailData.length; i++){
-                var title = utilities.createTitle(emailData[i]);
-                var specs = utilities.createSpecs(emailData[i]);
+                var emailData = utilities.getEmailData(result.data);
+                var mustacheData = [];
 
-                var data = {
-                    p_price: utilities.formatPrice(emailData[i].price),
-                    p_image: emailData[i].photo,
-                    p_name: title,
-                    p_address: emailData[i].address,
-                    p_city: emailData[i].city,
-                    p_description: emailData[i].description,
-                    p_spec: specs
+                for (var i=0; i<emailData.length; i++){
+                   var title = utilities.createTitle(emailData[i]);
+                   var specs = utilities.createSpecs(emailData[i]);
+
+                    var data = {
+                        p_price: utilities.formatPrice(emailData[i].price),
+                        p_image: emailData[i].photo,
+                        p_name: title,
+                        p_address: emailData[i].address,
+                        p_city: emailData[i].city,
+                        p_description: emailData[i].description,
+                        p_spec: specs
+                    }
+                    mustacheData.push(data);
                 }
-                mustacheData.push(data);
+                resolve(mustacheData);
+            }).catch(function(err){
+                reject(err);
+            });
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.createEmailLinks = function(accessToken, id){
+
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/listings" +
+        "?_filter=SavedSearch Eq '" + id + "'";
+
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+
+        axios(options).then(function(result){
+            var promises = [];
+            var listings = result.data;
+            if (listings.D && listings.D.Results){
+                for (var i=0; i<listings.D.Results.length; i++){
+                    var f = listings.D.Results[i].StandardFields;
+                    var sharedLinkBody = {};
+                    sharedLinkBody.D = {
+                        ListingIds: [f.ListingKey]
+                    };
+                    var promise = exports.createSharedLink(accessToken, sharedLinkBody);
+                    promises.push(promise);
+                }
             }
-            resolve(mustacheData);
+            Promise.all(promises).then(function(links){
+                resolve(links);
+            }).catch(function(err){
+                reject(utilities.processAxiosError(err));
+            });
 
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
