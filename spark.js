@@ -906,37 +906,44 @@ exports.createEmailMustache = function(accessToken, id){
 
         axios(options).then(function(result){
             exports.createEmailLinks(accessToken, id).then(function(links){
+                exports.getProfilesMe(accessToken).then(function(profile){
+                    var emailData = utilities.getEmailData(result.data);
+                    var mustacheData = [];
 
-                var emailData = utilities.getEmailData(result.data);
-                var mustacheData = [];
-
-                for (var i=0; i<emailData.length; i++){
-                    var title = utilities.createTitle(emailData[i]);
-                    var specs = utilities.createSpecs(emailData[i]);
-                    var url = "";
-                    for (var j=0; j<links.length; j++){
-                        var ListingKey = links[j].D.Results[0].ListingIds[0];
-                        if (ListingKey === emailData[i].id){
-                            url = links[j].D.Results[0].SharedUri;
-                            break;
+                    for (var i=0; i<emailData.length; i++){
+                        var title = utilities.createTitle(emailData[i]);
+                        var specs = utilities.createSpecs(emailData[i]);
+                        var url = "";
+                        for (var j=0; j<links.length; j++){
+                            var ListingKey = links[j].D.Results[0].ListingIds[0];
+                            if (ListingKey === emailData[i].id){
+                                url = links[j].D.Results[0].SharedUri;
+                                break;
+                            }
                         }
+                        var data = {
+                            p_price: utilities.formatPrice(emailData[i].price),
+                            p_image: emailData[i].photo,
+                            p_name: title,
+                            p_address: emailData[i].address,
+                            p_city: emailData[i].city,
+                            p_description: emailData[i].description,
+                            p_spec: specs,
+                            p_url: url
+                        }
+                        mustacheData.push(data);
                     }
-                    var data = {
-                        p_price: utilities.formatPrice(emailData[i].price),
-                        p_image: emailData[i].photo,
-                        p_name: title,
-                        p_address: emailData[i].address,
-                        p_city: emailData[i].city,
-                        p_description: emailData[i].description,
-                        p_spec: specs,
-                        p_url: url
-                    }
-                    mustacheData.push(data);
-                }
-                var ret = {
-                    listings: mustacheData
-                };
-                resolve(ret);
+                    profile = profiles.D.Results[0];
+                    var retProfile = utilities.getProfileData(profile);
+                    var ret = {
+                        listings: mustacheData,
+                        profile: retProfile
+                    };
+                    resolve(ret);
+                }).catch(function(err){
+                    reject(err);
+                });
+            
             }).catch(function(err){
                 reject(err);
             });
@@ -979,6 +986,30 @@ exports.createEmailLinks = function(accessToken, id){
                 reject(utilities.processAxiosError(err));
             });
 
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+
+exports.getProfilesMe = function(accessToken){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/system";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'GET',
+            headers: headers
+        };
+        axios(options).then(function(system){
+            console.log(system);
+            //exports.getAccountProfile(accessToken, system.D.Results[0].Id).then(function(profile){
+                exports.getAccountProfile(accessToken, system.data.D.Results[0].Id).then(function(profile){
+            resolve(profile);
+            }).catch(function(err){
+                reject(err);
+            });
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });

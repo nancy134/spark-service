@@ -176,3 +176,19 @@ exports.createSpecs = function(emailData){
     }
     return(specs);
 }
+
+exports.getProfileData = function(profile){
+
+    var ret = {};
+    ret.name = profile.Name;
+    
+    var email = null;
+    if (profile.Emails){
+        for (var i=0; i<profile.Emails.length; i++){
+            if (profile.Emails[i].Primary === true && profile.Emails[i].ProfileDisplay === true){
+                email = profile.Emails[i].Address;
+            }
+        }
+    }
+    return (ret);
+}

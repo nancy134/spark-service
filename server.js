@@ -483,4 +483,15 @@ app.post('/emails/:id/links', (req, res) => {
     });
 });
 
+app.get('/profiles/me', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getProfilesMe(accessToken).then(function(system){
+        res.json(system);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.listen(PORT, HOST);
