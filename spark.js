@@ -933,7 +933,10 @@ exports.createEmailMustache = function(accessToken, id){
                     }
                     mustacheData.push(data);
                 }
-                resolve(mustacheData);
+                var ret = {
+                    listings: mustacheData
+                };
+                resolve(ret);
             }).catch(function(err){
                 reject(err);
             });
