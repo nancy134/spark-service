@@ -181,7 +181,7 @@ exports.getProfileData = function(profile){
 
     var ret = {};
     ret.name = profile.Name;
-    
+
     var email = null;
     if (profile.Emails){
         for (var i=0; i<profile.Emails.length; i++){
@@ -190,5 +190,47 @@ exports.getProfileData = function(profile){
             }
         }
     }
+    ret.email = email;
+
+    var phone = null;
+    if (profile.Phones){
+        for (i=0; i<profile.Phones.length; i++){
+            if (profile.Phones[i].Primary === true && profile.Phones[i].ProfileDisplay === true){
+                phone = profile.Phones[i].Number;
+            }
+        }
+    }
+    ret.phone = phone;
+
+    var website = null;
+    if (profile.Websites){
+        for (i=0; i<profile.Websites.length; i++){
+            if (profile.Websites[i].Primary === true && profile.Websites[i].ProfileDisplay === true){
+                phone = profile.Websites[i].uri;
+            }
+        }
+    }
+    ret.website = website;
+
+    var website = null;
+    if (profile.Websites){
+        for (i=0; i<profile.Websites.length; i++){
+            if (profile.Websites[i].Primary === true && profile.Websites[i].ProfileDisplay === true){
+                phone = profile.Websites[i].uri;
+            }
+        }
+    }
+    ret.website = website;
+
+    var image = null;
+    if (profile.Images){
+        for (i=0; i<profile.Images.length; i++){
+            if (profile.Images[i].Primary === true){
+                image = profile.Images[i].Uri;
+            }
+        }
+    }
+    ret.image = image;
+
     return (ret);
 }

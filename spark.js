@@ -933,7 +933,7 @@ exports.createEmailMustache = function(accessToken, id){
                         }
                         mustacheData.push(data);
                     }
-                    profile = profiles.D.Results[0];
+                    profile = profile.D.Results[0];
                     var retProfile = utilities.getProfileData(profile);
                     var ret = {
                         listings: mustacheData,
