@@ -182,6 +182,8 @@ exports.getProfileData = function(profile){
     var ret = {};
     ret.name = profile.Name;
 
+    ret.company = profile.Company;
+
     var email = null;
     if (profile.Emails){
         for (var i=0; i<profile.Emails.length; i++){
@@ -222,6 +224,16 @@ exports.getProfileData = function(profile){
         }
     }
     ret.image = image;
+
+    var address = null;
+    if (profile.Addresses){
+        for (i=0; i<profile.Addresses.length; i++){
+            if (profile.Addresses[i].Primary === true){
+                address = profile.Addresses[i].Address;
+            }
+        }
+    }
+    ret.address = address;
 
     return (ret);
 }
