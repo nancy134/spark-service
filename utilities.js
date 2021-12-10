@@ -206,21 +206,12 @@ exports.getProfileData = function(profile){
     if (profile.Websites){
         for (i=0; i<profile.Websites.length; i++){
             if (profile.Websites[i].Primary === true && profile.Websites[i].ProfileDisplay === true){
-                phone = profile.Websites[i].uri;
+                website = profile.Websites[i].Uri;
             }
         }
     }
     ret.website = website;
 
-    var website = null;
-    if (profile.Websites){
-        for (i=0; i<profile.Websites.length; i++){
-            if (profile.Websites[i].Primary === true && profile.Websites[i].ProfileDisplay === true){
-                phone = profile.Websites[i].uri;
-            }
-        }
-    }
-    ret.website = website;
 
     var image = null;
     if (profile.Images){
