@@ -595,7 +595,6 @@ exports.createEmail = function(accessToken, id){
 
         axios(options).then(function(result){
             var sharedLinkBody = utilities.createSharedLinkBody(result.data);
-            console.log(sharedLinkBody);
             
             var emailData = utilities.getEmailData(result.data);
             var dataSources = [];
@@ -768,7 +767,6 @@ exports.createSharedLink = function(accessToken, body){
             data: body
             
         };
-        console.log(options);
         axios(options).then(function(result){
             resolve(result.data);
         }).catch(function(err){
@@ -1003,15 +1001,13 @@ exports.getProfilesMe = function(accessToken){
             headers: headers
         };
         axios(options).then(function(system){
-            //console.log(system);
             exports.getAccountProfile(accessToken, system.data.D.Results[0].Id).then(function(profile){
 
-                var mlsId = system.D.Results[0].MlsId;
-                var f = system.D.Results[0].DisplayCompliance;
+                var mlsId = system.data.D.Results[0].MlsId;
+                var f = system.data.D.Results[0].DisplayCompliance;
                 var disclaimer = f[mlsId].DisclaimerText;
-                profile.disclaimer = disclaimer;
-
-            resolve(profile);
+                profile.D.Results[0].disclaimer = disclaimer;
+                resolve(profile);
             }).catch(function(err){
                 reject(err);
             });

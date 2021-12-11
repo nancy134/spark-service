@@ -70,7 +70,6 @@ exports.getEmailData = function(listings){
             emailData.push(listing);
         }
     }
-    console.log(emailData);
 
     return(emailData);
 }
@@ -183,6 +182,7 @@ exports.getProfileData = function(profile){
     ret.name = profile.Name;
 
     ret.company = profile.Company;
+    ret.disclaimer = profile.disclaimer;
 
     var email = null;
     if (profile.Emails){
