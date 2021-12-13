@@ -1,5 +1,6 @@
 const axios = require('axios');
 const utilities = require('./utilities');
+const linkService = require('./link');
 
 exports.getProperties = function(accessToken){
     return new Promise(function(resolve, reject){
@@ -765,10 +766,24 @@ exports.createSharedLink = function(accessToken, body){
             method: 'POST',
             headers: headers,
             data: body
-            
+
         };
+        var date = new Date(); // Now
+        date.setDate(date.getDate() + 30);
+        var expiresAt = date.setDate(date.getDate() + 30);
         axios(options).then(function(result){
-            resolve(result.data);
+            var linkBody = {
+                listingKey: body.D.ListingIds[0],
+                link: result.data.D.Results[0].SharedUri,
+                expiresAt: expiresAt
+            };
+            console.log(linkBody);
+            linkService.create("", linkBody).then(function(link){
+                console.log(link);
+                resolve(result.data);
+            }).catch(function(err){
+                reject(utilities.processAxiosError(err));
+            });
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });

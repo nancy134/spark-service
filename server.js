@@ -10,7 +10,7 @@ const sparkService = require('./spark');
 const utilities = require('./utilities');
 
 const url = require('url');
-
+const linkService = require('./link');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -449,6 +449,22 @@ app.get('/profiles/me', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
     sparkService.getProfilesMe(accessToken).then(function(system){
         res.json(system);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.get('/links/:id', (req, res) => {
+    linkService.get(req.params.id).then(function(link){
+        res.json(link);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.get('/links', (req, res) => {
+    linkService.find(req.query.listingKey).then(function(link){
+        res.json(link);
     }).catch(function(err){
         res.status(400).json(err);
     });
