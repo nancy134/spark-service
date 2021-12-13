@@ -2,6 +2,7 @@ const axios = require('axios');
 const utilities = require('./utilities');
 const linkService = require('./link');
 
+
 exports.getProperties = function(accessToken){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/Reso/OData" + "/Property";
@@ -769,21 +770,27 @@ exports.createSharedLink = function(accessToken, body){
 
         };
         var date = new Date(); // Now
-        date.setDate(date.getDate() + 30);
         var expiresAt = date.setDate(date.getDate() + 30);
-        axios(options).then(function(result){
-            var linkBody = {
-                listingKey: body.D.ListingIds[0],
-                link: result.data.D.Results[0].SharedUri,
-                expiresAt: expiresAt
-            };
-            console.log(linkBody);
-            linkService.create("", linkBody).then(function(link){
-                console.log(link);
-                resolve(result.data);
-            }).catch(function(err){
-                reject(utilities.processAxiosError(err));
-            });
+        linkService.find(body.D.ListingIds[0]).then(function(link){
+            if (!link){
+                axios(options).then(function(result){
+                    var linkBody = {
+                        listingKey: body.D.ListingIds[0],
+                        link: result.data.D.Results[0].SharedUri,
+                        expiresAt: expiresAt
+                    };
+                    linkService.create(linkBody).then(function(link){
+                        console.log(link);
+                        resolve(link);
+                    }).catch(function(err){
+                        reject(utilities.processAxiosError(err));
+                    });
+                }).catch(function(err){
+                    reject(utilities.processAxiosError(err));
+                });
+            } else {
+                resolve(link);
+            }
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });
@@ -928,9 +935,11 @@ exports.createEmailMustache = function(accessToken, id){
                         var specs = utilities.createSpecs(emailData[i]);
                         var url = "";
                         for (var j=0; j<links.length; j++){
-                            var ListingKey = links[j].D.Results[0].ListingIds[0];
+                            //var ListingKey = links[j].D.Results[0].ListingIds[0];
+                            var ListingKey = links[j].listingKey;
                             if (ListingKey === emailData[i].id){
-                                url = links[j].D.Results[0].SharedUri;
+                                //url = links[j].D.Results[0].SharedUri;
+                                url = links[j].link;
                                 break;
                             }
                         }
