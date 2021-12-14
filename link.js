@@ -79,3 +79,20 @@ exports.update = function(id, body){
         });
     });
 }
+
+exports.deleteLink = function(id, t){
+    return new Promise(function(resolve, reject){
+        //models.Code.destroy({
+        models.Link.destroy({
+    
+            where: {
+                id: id,
+            },
+            transaction: t
+        }).then(function(result){
+            resolve(result);
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+}

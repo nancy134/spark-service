@@ -488,4 +488,15 @@ app.put('/links/:id', (req, res) => {
     });
 });
 
+
+app.delete('/links/:id', (req, res) => {
+    linkService.deleteLink(req.params.id).then(function(link){
+        res.json(link);
+    }).catch(function(err){
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
+
 app.listen(PORT, HOST);
