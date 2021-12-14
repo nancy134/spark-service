@@ -58,3 +58,24 @@ exports.find = function(listingKey){
         reject(err);
     });
 }
+
+
+exports.update = function(id, body){
+    return new Promise(function(resolve, reject){
+        models.Link.update(
+            body,
+            {
+                returning: true,
+                where: {id: id}
+            }
+        ).then(function(update){
+            if (!update[0]){
+                reject({message: "No records updated"});
+            } else {
+                resolve(update[1][0]);
+            }
+        }).catch(function(err){
+            reject(err);
+        });
+    });
+}

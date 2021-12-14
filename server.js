@@ -463,7 +463,8 @@ app.get('/links/:id', (req, res) => {
 });
 
 app.get('/links', (req, res) => {
-    if (req.query.linkingKey){
+    //if (req.query.linkingKey){
+    if (req.query.listingKey){
     linkService.find(req.query.listingKey).then(function(link){
         res.json(link);
     }).catch(function(err){
@@ -479,5 +480,12 @@ app.get('/links', (req, res) => {
     }
 });
 
+app.put('/links/:id', (req, res) => {
+    linkService.update(req.params.id, req.body).then(function(link){
+        res.json(link);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
 
 app.listen(PORT, HOST);

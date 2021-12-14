@@ -772,18 +772,30 @@ exports.createSharedLink = function(accessToken, body){
         var date = new Date(); // Now
         var expiresAt = date.setDate(date.getDate() + 30);
         linkService.find(body.D.ListingIds[0]).then(function(link){
-            if (!link){
+             if (utilities.isExpired(link)){
                 axios(options).then(function(result){
-                    var linkBody = {
-                        listingKey: body.D.ListingIds[0],
-                        link: result.data.D.Results[0].SharedUri,
-                        expiresAt: expiresAt
-                    };
-                    linkService.create(linkBody).then(function(link){
-                        resolve(link);
-                    }).catch(function(err){
-                        reject(utilities.processAxiosError(err));
-                    });
+                    var linkBody = {};
+                    if (!link){
+                        linkBody = {
+                            listingKey: body.D.ListingIds[0],
+                            link: result.data.D.Results[0].SharedUri,
+                            expiresAt: expiresAt
+                        };
+                        linkService.create(linkBody).then(function(link){
+                            resolve(link);
+                        }).catch(function(err){
+                            reject(utilities.processAxiosError(err));
+                        });
+                    } else {
+                        linkBody = {
+                            expiresAt: expiresAt
+                        };
+                        linkService.update(link.id, linkBody).then(function(link){
+                            resolve(link);
+                        }).catch(function(err){
+                            reject(utilities.processAxiosError(err));
+                        });
+                    }
                 }).catch(function(err){
                     reject(utilities.processAxiosError(err));
                 });
