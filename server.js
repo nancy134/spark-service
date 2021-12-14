@@ -463,11 +463,20 @@ app.get('/links/:id', (req, res) => {
 });
 
 app.get('/links', (req, res) => {
+    if (req.query.linkingKey){
     linkService.find(req.query.listingKey).then(function(link){
         res.json(link);
     }).catch(function(err){
         res.status(400).json(err);
     });
+    } else {
+    linkService.getAll().then(function(link){
+        res.json(link);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+
+    }
 });
 
 

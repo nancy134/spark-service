@@ -1,7 +1,7 @@
 const models = require("./models");
 const utilities = require('./utilities');
 
-exports.create = function(authParams, body, t){
+exports.create = function(body, t){
     return new Promise(function(resolve, reject){
         models.Link.create(
             body,
@@ -11,6 +11,19 @@ exports.create = function(authParams, body, t){
         }).catch(function(err){
             reject(err);
        });
+    });
+}
+
+exports.getAll = function(){
+    return new Promise(function(resolve, reject){
+        models.Link.findAndCountAll({
+        }).then(function(links){
+            resolve(links);
+        }).catch(function(err){
+            reject(err);
+        });
+    }).catch(function(err){
+        reject(err);
     });
 }
 

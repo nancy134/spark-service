@@ -780,7 +780,6 @@ exports.createSharedLink = function(accessToken, body){
                         expiresAt: expiresAt
                     };
                     linkService.create(linkBody).then(function(link){
-                        console.log(link);
                         resolve(link);
                     }).catch(function(err){
                         reject(utilities.processAxiosError(err));
@@ -935,10 +934,8 @@ exports.createEmailMustache = function(accessToken, id){
                         var specs = utilities.createSpecs(emailData[i]);
                         var url = "";
                         for (var j=0; j<links.length; j++){
-                            //var ListingKey = links[j].D.Results[0].ListingIds[0];
                             var ListingKey = links[j].listingKey;
                             if (ListingKey === emailData[i].id){
-                                //url = links[j].D.Results[0].SharedUri;
                                 url = links[j].link;
                                 break;
                             }
