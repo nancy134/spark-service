@@ -11,6 +11,7 @@ const utilities = require('./utilities');
 
 const url = require('url');
 const linkService = require('./link');
+const constantService = require('./constant');
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -246,7 +247,10 @@ app.get('/brokertours', (req, res) => {
     });
 });
 
-app.get('/savedsearches', (req, res) => {
+var corsOptions = {
+    origin: 'https://local.phowma.com'
+}
+app.get('/savedsearches', cors(corsOptions), (req, res) => {
     var accessToken = utilities.getAccessToken(req);
     sparkService.getSavedSearches(accessToken).then(function(account){
         res.json(account);
@@ -493,10 +497,61 @@ app.delete('/links/:id', (req, res) => {
     linkService.deleteLink(req.params.id).then(function(link){
         res.json(link);
     }).catch(function(err){
-        console.log(err);
         res.status(400).json(err);
     });
 });
 
+app.post('/constants', (req, res) => {
+    constantService.create(req.body).then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.get('/constants/:id', (req, res) => {
+    constantService.get(req.params.id).then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.get('/constants', (req, res) => {
+    if (req.query.savedSearchId){
+    constantService.find(req.query.savedSearchId).then(function(constant){
+        if (!constant)
+            res.status(404).send("not found");
+        else
+            res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+    } else {
+    constantService.getAll().then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+
+    }
+});
+
+app.put('/constants/:id', (req, res) => {
+    constantService.update(req.params.id, req.body).then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+
+app.delete('/constants/:id', (req, res) => {
+    constantService.deleteConstant(req.params.id).then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
 
 app.listen(PORT, HOST);
