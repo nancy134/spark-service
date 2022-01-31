@@ -22,8 +22,6 @@ exports.getAll = function(){
         }).catch(function(err){
             reject(err);
         });
-    }).catch(function(err){
-        reject(err);
     });
 }
 
@@ -38,8 +36,6 @@ exports.get = function(id){
         }).catch(function(err){
             reject(err);
         });
-    }).catch(function(err){
-        reject(err);
     });
 }
 
@@ -54,8 +50,6 @@ exports.find = function(savedSearchId){
         }).catch(function(err){
             reject(err);
         });
-    }).catch(function(err){
-        reject(err);
     });
 }
 
