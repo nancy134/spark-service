@@ -519,7 +519,7 @@ app.get('/constants/:id', (req, res) => {
 
 app.get('/constants', (req, res) => {
     if (req.query.savedSearchId){
-    constantService.find(req.query.savedSearchId).then(function(constant){
+    constantService.find(req.query.savedSearchId, req.query.ccAccountId).then(function(constant){
         if (!constant)
             res.status(404).send("not found");
         else

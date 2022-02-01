@@ -39,11 +39,12 @@ exports.get = function(id){
     });
 }
 
-exports.find = function(savedSearchId){
+exports.find = function(savedSearchId, ccAccountId){
     return new Promise(function(resolve, reject){
         models.Constant.findOne({
             where: {
-                savedSearchId: savedSearchId
+                savedSearchId: savedSearchId,
+                ccAccountId: ccAccountId
             }
         }).then(function(constant){
             resolve(constant);
