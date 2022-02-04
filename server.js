@@ -176,7 +176,9 @@ app.get('/accounts/:id', (req, res) => {
 
 app.get('/contacts', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    sparkService.getContacts(accessToken).then(function(contacts){
+    var urlParts  = url.parse(req.url);
+    var queryStr = urlParts.query;
+    sparkService.getContacts(accessToken, queryStr).then(function(contacts){
         res.json(contacts);
     }).catch(function(err){
         res.status(400).json(err);
@@ -549,6 +551,24 @@ app.put('/constants/:id', (req, res) => {
 app.delete('/constants/:id', (req, res) => {
     constantService.deleteConstant(req.params.id).then(function(constant){
         res.json(constant);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.post('/contacts', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.createContact(accessToken, req.body).then(function(contact){
+        res.json(contact);
+    }).catch(function(err){
+        res.status(400).json(err);
+    });
+});
+
+app.put('/contacts/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.updateContact(accessToken, req.params.id, req.body).then(function(contact){
+        res.json(contact);
     }).catch(function(err){
         res.status(400).json(err);
     });

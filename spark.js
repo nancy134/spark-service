@@ -281,9 +281,10 @@ exports.getAccount = function(accessToken, id){
     });
 }
 
-exports.getContacts = function(accessToken){
+exports.getContacts = function(accessToken, query){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts";
+        if (query) url += "?" + query;
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -1049,3 +1050,40 @@ exports.getProfilesMe = function(accessToken){
         });
     });
 }
+
+exports.createContact = function(accessToken, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts";
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'POST',
+            data: body,
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
+exports.updateContact = function(accessToken, id, body){
+    return new Promise(function(resolve, reject){
+        var url = "https://sparkapi.com/v1" + "/contacts/" + id;
+        var headers = utilities.createHeaders(accessToken);
+        var options = {
+            url: url,
+            method: 'PUT',
+            data: body,
+            headers: headers
+        };
+        axios(options).then(function(result){
+            resolve(result.data);
+        }).catch(function(err){
+            reject(utilities.processAxiosError(err));
+        });
+    });
+}
+
