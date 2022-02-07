@@ -13,6 +13,8 @@ const url = require('url');
 const linkService = require('./link');
 const constantService = require('./constant');
 
+const sqsService = require('./sqs');
+
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(cors());
