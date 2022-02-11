@@ -10,8 +10,13 @@ exports.handleSQSMessage = function(message){
     var json2 = JSON.parse(json.Message);
     var queryStr = "?email="+json2.email;
     var accessToken = json2.token;
+
     sparkService.getContacts(accessToken, queryStr).then(function(contacts){
-        console.log(contacts);
+        if (contacts.D && contacts.D.Success){
+            console.log("found contact: "+queryStr);
+        } else {
+            console.log("Did not find contact: "+queryStr);
+        }
     }).catch(function(err){
         console.log(err);
     });
