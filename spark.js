@@ -287,7 +287,7 @@ exports.getContacts = function(accessToken, query){
         if (query){
             var parts = query.split("=");
             var email = parts[1];
-            url += "?_filter=PrimaryEmail Eq '" + email + "'";
+            url += "?_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
         }
         console.log("url: "+url);
         var headers = utilities.createHeaders(accessToken);

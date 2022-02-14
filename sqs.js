@@ -12,7 +12,7 @@ exports.handleSQSMessage = function(message){
     var accessToken = json2.token;
 
     sparkService.getContacts(accessToken, queryStr).then(function(contacts){
-        if (contacts.D && contacts.D.Success){
+        if (contacts.D && contacts.D.Results && contacts.D.Results.length > 0){
             console.log("found contact: "+queryStr);
         } else {
             console.log("Did not find contact: "+queryStr);
