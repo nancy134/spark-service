@@ -15,7 +15,20 @@ exports.handleSQSMessage = function(message){
         if (contacts.D && contacts.D.Results && contacts.D.Results.length > 0){
             console.log("found contact: "+queryStr);
         } else {
-            console.log("Did not find contact: "+queryStr);
+            var contact = {
+                D: {
+                    DisplayName: "Test Contact",
+                    PrimaryEmail: "testcontact@murbansw.com",
+                    GivenName: "Test",
+                    FamilyName : "Contact"
+                }
+            }
+            console.log(contact);
+            sparkService.createContact(accessToken, contact).then(function(newContact){
+                console.log(newContact);
+            }).catch(function(err){
+                console.log(err);
+            });
         }
     }).catch(function(err){
         console.log(err);
