@@ -17,10 +17,10 @@ exports.handleSQSMessage = function(message){
         } else {
             var contact = {
                 D: {
-                    DisplayName: "Test Contact",
-                    PrimaryEmail: "testcontact@murbansw.com",
-                    GivenName: "Test",
-                    FamilyName : "Contact"
+                    DisplayName: json2.first + " " + json2.last,
+                    PrimaryEmail: json2.email,
+                    GivenName: json2.first,
+                    FamilyName : json2.last
                 }
             }
             console.log(contact);
