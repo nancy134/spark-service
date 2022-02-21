@@ -51,4 +51,4 @@ module.exports.sqsApp.on('error', (err) => {
 });
 
 
-module.exports.sqsApp.start();
+//module.exports.sqsApp.start();
