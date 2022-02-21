@@ -13,7 +13,13 @@ exports.handleSQSMessage = function(message){
 
     sparkService.getContacts(accessToken, queryStr).then(function(contacts){
         if (contacts.D && contacts.D.Results && contacts.D.Results.length > 0){
-            console.log("found contact: "+queryStr);
+            var first = contacts.D.Results[0].GivenName;
+            var last = contacts.D.Results[0].FamilyName;
+            if (first !== json2.first || last !== json2.last){
+                console.log(first + " " + last + " does not match " + json2.first + " " + json2.last);
+            } else {
+                console.log(first + " " + last + " matches " + json2.first + " " + json2.last);
+            }
         } else {
             var contact = {
                 D: {
