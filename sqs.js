@@ -15,11 +15,27 @@ exports.handleSQSMessage = function(message){
         if (contacts.D && contacts.D.Results && contacts.D.Results.length > 0){
             var first = contacts.D.Results[0].GivenName;
             var last = contacts.D.Results[0].FamilyName;
-            if (first !== json2.first || last !== json2.last){
-                console.log(first + " " + last + " does not match " + json2.first + " " + json2.last);
+
+            id = contacts.D.Results[0].Id
+            
+            var body = {
+                D: {
+                }
+            };
+            
+            if (!first && json2.first) body.D.GivenName = json2.first;
+            if (!last && json2.last) body.D.FamilyName = json2.last;
+            
+            if (body.D.GivenName || body.D.FamilyName){
+                sparkService.updateContact(accessToken, id, body).then(function(contact){
+                    console.log(json2.email + " successfully updated");
+                }).catch(function(err){
+                    console.log(err);
+                });
             } else {
-                console.log(first + " " + last + " matches " + json2.first + " " + json2.last);
+                console.log("No changes for "+json2.email);
             }
+            
         } else {
             var contact = {
                 D: {
