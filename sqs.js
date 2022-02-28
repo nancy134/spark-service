@@ -21,13 +21,8 @@ exports.handleSQSMessage = function(message){
 
             id = contacts.D.Results[0].Id
             
-            var body = {
-                D: {
-                }
-            };
-            
-            if (!first && json2.first) body.D.GivenName = json2.first;
-            if (!last && json2.last) body.D.FamilyName = json2.last;
+            var body = utilities.createSparkContactData(json2);
+            console.log(body);
             
             if (body.D.GivenName || body.D.FamilyName){
                 sparkService.updateContact(accessToken, id, body).then(function(contact){
