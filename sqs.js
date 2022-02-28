@@ -5,6 +5,9 @@ const syncCCContact = process.env.AWS_SQS_CC_SYNC_CONTACT_TO_SPARK
 const { Consumer } = require('sqs-consumer');
 const sparkService = require('./spark');
 
+const utilities = require('./utilities');
+
+
 exports.handleSQSMessage = function(message){
     var json = JSON.parse(message.Body);
     var json2 = JSON.parse(json.Message);
@@ -37,15 +40,10 @@ exports.handleSQSMessage = function(message){
             }
             
         } else {
-            var contact = {
-                D: {
-                    DisplayName: json2.first + " " + json2.last,
-                    PrimaryEmail: json2.email,
-                    GivenName: json2.first,
-                    FamilyName : json2.last
-                }
-            }
+
+            var contact = utilities.createSparkContactData(json2);
             console.log(contact);
+
             sparkService.createContact(accessToken, contact).then(function(newContact){
                 console.log(newContact);
             }).catch(function(err){
