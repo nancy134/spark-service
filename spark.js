@@ -285,11 +285,13 @@ exports.getContacts = function(accessToken, query){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts?_pagination=1";
 
-        if (query){
-            var parts = query.split("=");
-            var email = parts[1];
+        if (email){
             url += "&_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
         }
+        if (page){
+            url += "&_page=+page";
+        }
+
         console.log("url: "+url);
         var headers = utilities.createHeaders(accessToken);
         var options = {

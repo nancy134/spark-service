@@ -178,10 +178,9 @@ app.get('/accounts/:id', (req, res) => {
 
 app.get('/contacts', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    var urlParts  = url.parse(req.url);
-    var queryStr = urlParts.query;
-    sparkService.getContacts(accessToken, queryStr).then(function(contacts){
-        res.json(contacts);
+    var email = req.query.email;
+    var page = req.query.page;
+    sparkService.getContacts(accessToken, email, page).then(function(contacts){        res.json(contacts);
     }).catch(function(err){
         res.status(400).json(err);
     });
