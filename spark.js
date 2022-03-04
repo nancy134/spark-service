@@ -281,7 +281,7 @@ exports.getAccount = function(accessToken, id){
     });
 }
 
-exports.getContacts = function(accessToken, query){
+exports.getContacts = function(accessToken, email, page){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts?_pagination=1";
 
@@ -289,7 +289,8 @@ exports.getContacts = function(accessToken, query){
             url += "&_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
         }
         if (page){
-            url += "&_page=+page";
+            url += "&_page=+" + page;
+
         }
 
         console.log("url: "+url);
