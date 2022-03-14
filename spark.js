@@ -308,6 +308,7 @@ exports.getContacts = function(accessToken, email, page){
     });
 }
 
+
 exports.getContact = function(accessToken, id){
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/contacts/" + id ;
