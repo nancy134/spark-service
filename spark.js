@@ -289,7 +289,7 @@ exports.getContacts = function(accessToken, email, page){
             url += "&_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
         }
         if (page){
-            url += "&_page=+" + page;
+            url += "&_page=" + page;
 
         }
 
