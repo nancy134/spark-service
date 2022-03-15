@@ -249,3 +249,69 @@ exports.isExpired = function(link){
     else return false;
 }
 
+exports.createSparkContactData = function(json2){
+
+    var contact = {
+        D: {
+        }
+    }
+   
+    if (json2.first && json2.last && !contact.D.DisplayName){
+        contact.D.DisplayName = json2.first + " " + json2.last;
+    }
+    if (json2.email && !contact.D.PrimaryEmail){
+        contact.D.PrimaryEmail = json2.email;
+    }
+    if (json2.first && !contact.D.GivenName){
+        contact.D.GivenName = json2.first;
+    }
+    if (json2.last && !contact.D.FamilyName){
+        contact.D.FamilyName = json2.last;
+    }
+    if (json2.middle && !contact.D.MiddleName){
+        contact.D.MiddleName = json2.middle;
+    }
+    if (json2.phone_work && !contact.D.WorkPhoneNumber){
+        contact.D.WorkPhoneNumber = json2.phone_work;
+    }
+    if (json2.phone_mobile && !contact.D.MobilePhoneNumber){
+        contact.D.MobilePhoneNumber = json2.phone_mobile;
+    }
+    if (json2.phone_other && !contact.D.OtherPhoneNumber){
+        contact.D.OtherPhoneNumber = json2.phone_other;
+    }
+    if (json2.phone_home && !conatct.D.HomePhoneNumber){
+        conatct.D.HomePhoneNumber = jsonn2.phone_home;
+    }
+    if (json2.phone_primary && !contact.D.PrimaryPhoneNumber){
+        contact.D.PrimaryPhoneNumber = json2.phone_primary;
+    }    
+    if (json2.phone_pager && !contact.D.PagerPhoneNumber){
+        contact.D.PagerPhoneNumber = json2.phone_pager;
+    }
+    if (json2.address_home_street && !contact.D.HomeStreetAddress){
+        contact.D.HomeStreetAddress = json2.address_home_street;         
+    }
+    if (json2.address_home_city && !contact.D.HomeLocality){
+        contact.D.HomeLocality = json2.address_home_city;         
+    }
+    if (json2.address_home_state && !contact.D.HomeRegion){
+        contact.D.HomeRegion = json2.address_home_state;         
+    }
+    if (json2.address_home_zip && !contact.D.HomePostalCode){
+        contact.D.HomePostalCode = json2.address_home_zip;         
+    }
+    if (json2.address_work_street && !contact.D.WorkStreetAddress){
+        contact.D.WorkStreetAddress = json2.address_work_street;         
+    }
+    if (json2.address_work_city && !contact.D.WorkLocality){
+        contact.D.WorkLocality = json2.address_work_city;         
+    }
+    if (json2.address_work_state && !contact.D.WorkRegion){
+        contact.D.WorkRegion = json2.address_work_state;         
+    }
+    if (json2.address_work_zip && !contact.D.WorkPostalCode){
+        contact.D.WorkPostalCode = json2.address_work_zip;         
+    }
+    return contact;
+}

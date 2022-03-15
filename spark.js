@@ -281,14 +281,18 @@ exports.getAccount = function(accessToken, id){
     });
 }
 
-exports.getContacts = function(accessToken, query){
+exports.getContacts = function(accessToken, email, page){
     return new Promise(function(resolve, reject){
-        var url = "https://sparkapi.com/v1" + "/contacts";
-        if (query){
-            var parts = query.split("=");
-            var email = parts[1];
-            url += "?_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
+        var url = "https://sparkapi.com/v1" + "/contacts?_pagination=1";
+
+        if (email){
+            url += "&_filter=PrimaryEmail Eq '" + email + "'&_expand=Notes";
         }
+        if (page){
+            url += "&_page=" + page;
+
+        }
+
         console.log("url: "+url);
         var headers = utilities.createHeaders(accessToken);
         var options = {
@@ -303,6 +307,7 @@ exports.getContacts = function(accessToken, query){
         });
     });
 }
+
 
 exports.getContact = function(accessToken, id){
     return new Promise(function(resolve, reject){
