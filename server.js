@@ -176,15 +176,19 @@ app.get('/accounts/:id', (req, res) => {
     });
 });
 
+
 app.get('/contacts', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
     var email = req.query.email;
     var page = req.query.page;
-    sparkService.getContacts(accessToken, email, page).then(function(contacts){        res.json(contacts);
+    var date = req.query.date;
+    sparkService.getContacts(accessToken, email, page, date).then(function(contacts){
+        res.json(contacts);
     }).catch(function(err){
         res.status(400).json(err);
     });
 });
+
 
 app.get('/contacts/:id', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
