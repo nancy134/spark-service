@@ -298,7 +298,6 @@ exports.getContacts = function(accessToken, email, page, date){
         }
 
 
-        console.log("url: "+url);
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
