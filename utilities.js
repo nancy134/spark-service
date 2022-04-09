@@ -165,13 +165,13 @@ exports.createSpecs = function(emailData){
 
     var specs = "";
     if (beds){
-        specs += beds + "bd ";
+        specs += beds + " bed ";
     }
     if (baths){
-        specs += baths + "ba ";
+        specs += baths + " bath ";
     }
     if (sqft){
-        specs += exports.numberWithCommas(sqft) + "sqft";
+        specs += exports.numberWithCommas(sqft) + " sq ft";
     }
     return(specs);
 }
