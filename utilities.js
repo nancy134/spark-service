@@ -53,7 +53,7 @@ exports.getEmailData = function(listings){
                 Strings.orEmpty(f.StreetDirSuffix) + " " +
                 Strings.orEmpty(f.StreetAdditionalInfo);
 
-            listing.address = address
+            listing.address = address.trim();
 
             var city = f.City + ", " + f.StateOrProvince;
             listing.city = city;
