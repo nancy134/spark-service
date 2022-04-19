@@ -12,7 +12,7 @@ const utilities = require('./utilities');
 const url = require('url');
 const linkService = require('./link');
 const constantService = require('./constant');
-
+const eventService = require('./event');
 const sqsService = require('./sqs');
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -586,6 +586,56 @@ app.put('/contacts/:id', (req, res) => {
     }).catch(function(err){
         errorResponse(res, err);
     });
+});
+
+app.post('/purchased', (req, res) => {
+    console.log(req.body);
+    eventService.create(req.body).then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
+});
+
+app.post('/canceled', (req, res) => {
+    console.log(req.body);
+    eventService.create(req.body).then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
+
+});
+
+app.post('/reviewed', (req, res) => {
+    console.log(req.body);
+    eventService.create(req.body).then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
+
+});
+
+app.post('/paymentfailure', (req, res) => {
+    console.log(req.body);
+    eventService.create(req.body).then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
+
+});
+
+app.post('/paymentsuccess', (req, res) => {
+    console.log(req.body);
+    eventService.create(req.body).then(function(result){
+        res.json(result);
+    }).catch(function(err){
+        console.log(err);
+        errorResponse(res, err);
+    });
+
 });
 
 app.listen(PORT, HOST);
