@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function errorResponse(res, err){
-    if (err.D && err.D.Code === 1000){
+    if (err && err.D && err.D.Code === 1000){
         err.statusCode = 401;
         res.status(401).json(err);
     } else {

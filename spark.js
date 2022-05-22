@@ -800,9 +800,10 @@ exports.createSharedLink = function(accessToken, body){
                         }).catch(function(err){
                             reject(utilities.processAxiosError(err));
                         });
-                    } else {
+                    }else {
                         linkBody = {
-                            expiresAt: expiresAt
+                            expiresAt: expiresAt,
+                            link: result.data.D.Results[0].SharedUri
                         };
                         linkService.update(link.id, linkBody).then(function(link){
                             resolve(link);

@@ -241,10 +241,12 @@ exports.getProfileData = function(profile){
 
 exports.isExpired = function(link){
     if (!link) return true;
-    var now = new Date();
+    var dt = new Date();
+    var now = dt.getTime(); 
     var expiresAt = Date.parse(link.expiresAt);
+
+    var diff = expiresAt - now;
     var days = Math.round((expiresAt-now)/(1000*60*60*24));
-    console.log("days: "+days);
     if (days < 7) return true;
     else return false;
 }
