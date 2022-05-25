@@ -41,11 +41,11 @@ exports.get = function(id){
 
 exports.find = function(savedSearchId, ccAccountId){
     return new Promise(function(resolve, reject){
-        models.Constant.findOne({
+        models.Constant.findAll({
             where: {
-                savedSearchId: savedSearchId,
-                ccAccountId: ccAccountId
-            }
+                savedSearchId: savedSearchId
+            },
+            order: [['createdAt', 'DESC']]
         }).then(function(constant){
             resolve(constant);
         }).catch(function(err){
