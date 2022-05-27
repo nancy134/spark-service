@@ -1019,6 +1019,16 @@ exports.createEmailMustache = function(accessToken, id){
                             }
                             mustacheData.push(data);
                         }
+
+                        if (emailData.length < 7){
+                            for (i=emailData.length; i<7; i++){
+                                var data = {
+                                    p_style: "display:none"
+                                };
+                                mustacheData.push(data);
+                            }
+                        }
+
                         profile = profile.D.Results[0];
                         var retProfile = utilities.getProfileData(profile);
                         var ret = {
