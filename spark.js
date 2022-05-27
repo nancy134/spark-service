@@ -850,8 +850,42 @@ exports.createSharedLinkSearch = function(accessToken, body){
             headers: headers,
             data: body
         };
-        axios(options).then(function(result){
-            resolve(result.data);
+
+
+        var date = new Date(); // Now
+        var expiresAt = date.setDate(date.getDate() + 30);
+        linkService.find(body.D.SearchId).then(function(link){
+             if (utilities.isExpired(link)){
+                axios(options).then(function(result){
+                    var linkBody = {};
+                    if (!link){
+                        linkBody = {
+                            listingKey: body.D.SearchId,
+                            link: result.data.D.Results[0].SharedUri,
+                            expiresAt: expiresAt
+                        };
+                        linkService.create(linkBody).then(function(link){
+                            resolve(link);
+                        }).catch(function(err){
+                            reject(utilities.processAxiosError(err));
+                        });
+                    }else {
+                        linkBody = {
+                            expiresAt: expiresAt,
+                            link: result.data.D.Results[0].SharedUri
+                        };
+                        linkService.update(link.id, linkBody).then(function(link){
+                            resolve(link);
+                        }).catch(function(err){
+                            reject(utilities.processAxiosError(err));
+                        });
+                    }
+                }).catch(function(err){
+                    reject(utilities.processAxiosError(err));
+                });
+            } else {
+                resolve(link);
+            }
         }).catch(function(err){
             reject(utilities.processAxiosError(err));
         });
@@ -952,40 +986,50 @@ exports.createEmailMustache = function(accessToken, id){
 
         axios(options).then(function(result){
             exports.createEmailLinks(accessToken, id).then(function(links){
-                exports.getProfilesMe(accessToken).then(function(profile){
-                    var emailData = utilities.getEmailData(result.data);
-                    var mustacheData = [];
-
-                    for (var i=0; i<emailData.length; i++){
-                        var title = utilities.createTitle(emailData[i]);
-                        var specs = utilities.createSpecs(emailData[i]);
-                        var url = "";
-                        for (var j=0; j<links.length; j++){
-                            var ListingKey = links[j].listingKey;
-                            if (ListingKey === emailData[i].id){
-                                url = links[j].link;
-                                break;
-                            }
-                        }
-                        var data = {
-                            p_price: utilities.formatPrice(emailData[i].price),
-                            p_image: emailData[i].photo,
-                            p_name: title,
-                            p_address: emailData[i].address,
-                            p_city: emailData[i].city,
-                            p_description: emailData[i].description,
-                            p_spec: specs,
-                            p_url: url
-                        }
-                        mustacheData.push(data);
+                var searchLinkBody = {
+                    D: {
+                        SearchId: id
                     }
-                    profile = profile.D.Results[0];
-                    var retProfile = utilities.getProfileData(profile);
-                    var ret = {
-                        listings: mustacheData,
-                        profile: retProfile
-                    };
-                    resolve(ret);
+                };
+                exports.createSharedLinkSearch(accessToken, searchLinkBody).then(function(searchLink){
+                    exports.getProfilesMe(accessToken).then(function(profile){
+                        var emailData = utilities.getEmailData(result.data);
+                        var mustacheData = [];
+
+                        for (var i=0; i<emailData.length; i++){
+                            var title = utilities.createTitle(emailData[i]);
+                            var specs = utilities.createSpecs(emailData[i]);
+                            var url = "";
+                            for (var j=0; j<links.length; j++){
+                                var ListingKey = links[j].listingKey;
+                                if (ListingKey === emailData[i].id){
+                                    url = links[j].link;
+                                    break;
+                                }
+                            }
+                            var data = {
+                                p_price: utilities.formatPrice(emailData[i].price),
+                                p_image: emailData[i].photo,
+                                p_name: title,
+                                p_address: emailData[i].address,
+                                p_city: emailData[i].city,
+                                p_description: emailData[i].description,
+                                p_spec: specs,
+                                p_url: url
+                            }
+                            mustacheData.push(data);
+                        }
+                        profile = profile.D.Results[0];
+                        var retProfile = utilities.getProfileData(profile);
+                        var ret = {
+                            search: searchLink.link,
+                            listings: mustacheData,
+                            profile: retProfile
+                        };
+                        resolve(ret);
+                    }).catch(function(err){
+                        reject(err);
+                    });
                 }).catch(function(err){
                     reject(err);
                 });
