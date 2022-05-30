@@ -442,9 +442,12 @@ exports.getBrokerTours = function(accessToken){
     });
 }
 
-exports.getSavedSearches = function(accessToken){
+exports.getSavedSearches = function(accessToken, page){
     return new Promise(function(resolve, reject){
-        var url = "https://sparkapi.com/v1" + "/savedsearches";
+        var url = "https://sparkapi.com/v1" + "/savedsearches?_pagination=1";
+        if (page){
+            url += "&_page="+page;
+        }
         var headers = utilities.createHeaders(accessToken);
         var options = {
             url: url,
@@ -812,6 +815,8 @@ exports.createSharedLink = function(accessToken, body){
                         });
                     }
                 }).catch(function(err){
+                    // Sometimes a link cannot be created
+                    // In this case create a link and put dummy url
                     reject(utilities.processAxiosError(err));
                 });
             } else {
@@ -972,7 +977,6 @@ exports.createListing = function(accessToken, body){
 }
 
 exports.createEmailMustache = function(accessToken, id){
-
     return new Promise(function(resolve, reject){
         var url = "https://sparkapi.com/v1" + "/listings" +
         "?_expand=Photos&_filter=SavedSearch Eq '" + id + "'";

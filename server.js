@@ -268,7 +268,8 @@ var corsOptions = {
 }
 app.get('/savedsearches', cors(corsOptions), (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    sparkService.getSavedSearches(accessToken).then(function(account){
+    var page = req.query.page;
+    sparkService.getSavedSearches(accessToken, page).then(function(account){
         res.json(account);
     }).catch(function(err){
         errorResponse(res, err);
