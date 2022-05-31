@@ -815,9 +815,15 @@ exports.createSharedLink = function(accessToken, body){
                         });
                     }
                 }).catch(function(err){
+                    console.log("Error creating shared link for: "+body.D.ListingIds[0]);
                     // Sometimes a link cannot be created
-                    // In this case create a link and put dummy url
-                    reject(utilities.processAxiosError(err));
+                    // In this case create a dummy link
+                    var link = {
+                        listingKey: body.D.ListingIds[0],
+                        link: ""
+                    };
+                    resolve(link);
+                    //reject(utilities.processAxiosError(err));
                 });
             } else {
                 resolve(link);
