@@ -450,7 +450,7 @@ app.post('/listings', (req, res) => {
 
 app.post('/emails/:id/mustache', (req, res) => {
     var accessToken = utilities.getAccessToken(req);
-    sparkService.createEmailMustache(accessToken, req.params.id).then(function(email){
+    sparkService.createEmailMustache(accessToken, req.params.id, req.body).then(function(email){
         res.json(email);
     }).catch(function(err){
         errorResponse(res, err);
@@ -637,6 +637,24 @@ app.post('/paymentsuccess', (req, res) => {
         errorResponse(res, err);
     });
 
+});
+
+app.get('/templates', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getTemplates(accessToken).then(function(templates){
+        res.json(templates);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
+});
+
+app.get('/templates/:id', (req, res) => {
+    var accessToken = utilities.getAccessToken(req);
+    sparkService.getTemplate(accessToken, req.params.id).then(function(constant){
+        res.json(constant);
+    }).catch(function(err){
+        errorResponse(res, err);
+    });
 });
 
 app.listen(PORT, HOST);
