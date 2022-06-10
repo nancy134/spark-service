@@ -868,6 +868,7 @@ exports.createSharedLinkSearch = function(accessToken, body){
         linkService.find(body.D.SearchId).then(function(link){
              if (utilities.isExpired(link)){
                 axios(options).then(function(result){
+                    console.log(result.data.D.Results);
                     var linkBody = {};
                     if (!link){
                         linkBody = {
@@ -998,7 +999,8 @@ exports.createEmailMustache = function(accessToken, id, body){
             exports.createEmailLinks(accessToken, id).then(function(links){
                 var searchLinkBody = {
                     D: {
-                        SearchId: id
+                        SearchId: id,
+                        Type: "Direct"
                     }
                 };
                 exports.createSharedLinkSearch(accessToken, searchLinkBody).then(function(searchLink){
